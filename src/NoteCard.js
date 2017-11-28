@@ -6,6 +6,8 @@ export default function(props) {
             <i className="fa fa-edit"></i>
             <i className="fa fa-times"></i>
             <h4>{props.note.title}</h4>
+        
+            <hr />>
             <p>{props.note.text}</p>
         </div>
     )

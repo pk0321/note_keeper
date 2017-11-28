@@ -36,6 +36,7 @@ class App extends Component {
     // Clear the notes and hide sidebar
     this.noteTitle.value = "";
     this.noteText.value = "";
+    //this.showSidebar.classList.toggle("show");
     this.showSidebar();
   }
 
@@ -51,9 +52,9 @@ class App extends Component {
           </header>
       
           <section className="notes">
-            {this.state.notes.map((note,i) => {
+            {this.state.notes.map((note, key) => {
               return (
-                <NoteCard note={note} key={'note-${i}'} />
+                <NoteCard note={note} key={key} />
               )
             })}
           </section>
