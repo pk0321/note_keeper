@@ -104,7 +104,7 @@ body {
 	position: relative;
 }
 
-.noteCard h4:after {
+/* .noteCard h4:after {
 	width: 20px;
 	height: 2px;
 	background: #182020;
@@ -113,12 +113,12 @@ body {
 	bottom: -10px;
 	left: 0;
 	content: "";
-}
+} */
 
 .noteCard input,
 .noteCard textarea {
 	border: none;
-	border-bottom: 2px solid #182020;
+	border-bottom: 2px solid #182020; 
 	margin-bottom: 10px;
 	width: 100%;
 }

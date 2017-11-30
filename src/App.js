@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {firebaseDatabase, FirebaseConstant} from './MyFirebase.js'; 
 import NoteCard from "./NoteCard.js"
 import './App.css';
 
@@ -11,33 +12,53 @@ class App extends Component {
 	  noteTitle: '',
 	  displaySidebar: ''
     }
+  } 
+
+  componentDidMount() {
+    firebaseDatabase.ref(FirebaseConstant.basePath).on('value', (res) => {
+
+      const userData = res.val();
+      const dataArray = [];
+
+      for(let key in userData) {
+        userData[key].key = key;
+        dataArray.push(userData[key])
+      }
+      this.setState({
+        notes: dataArray
+      })
+    });
   }
-  
+
   toggleSideBar() {
 	  this.setState({displaySidebar: !this.state.displaySidebar});
   }
 
   addNote(e) {
     e.preventDefault();
+
+    const note = {
+      title: this.state.noteTitle,
+      text: this.state.noteText
+    }
+
+    firebaseDatabase.ref(FirebaseConstant.basePath).push(note); 
+
     var myNotes = this.state.notes;
-	myNotes.push({text: this.state.noteText, title: this.state.noteTitle});
+    myNotes.push(note);
+    
     this.setState({
       notes: myNotes,
 	  noteText: '',
 	  noteTitle: ''
     });
-<<<<<<< HEAD
-
-    // Clear the notes and hide sidebar
-    this.noteTitle.value = "";
-    this.noteText.value = "";
-    //this.showSidebar.classList.toggle("show");
-    this.showSidebar();
-=======
+    
     this.toggleSideBar();
->>>>>>> ba35ba16f1ea638101c3c16d858e0a9100a4d8c7
   }
 
+  removeNote(noteId) {
+    firebaseDatabase.ref(FirebaseConstant.basePath).child(noteId).remove();
+  }
 
   render() {
 	  var myClass = 'sidebar';
@@ -48,7 +69,7 @@ class App extends Component {
     return (
       <div>
           <header className="mainHeader">
-            <h1>Noted</h1>
+            <h1>Note Keeper</h1>
             <nav>
               <a href="" onClick={(e) => {e.preventDefault(); this.toggleSideBar();}}>Add New Note</a>
             </nav>
@@ -57,11 +78,7 @@ class App extends Component {
           <section className="notes">
             {this.state.notes.map((note, key) => {
               return (
-<<<<<<< HEAD
-                <NoteCard note={note} key={key} />
-=======
-                <NoteCard note={note} key={i} />
->>>>>>> ba35ba16f1ea638101c3c16d858e0a9100a4d8c7
+                <NoteCard note = {note} key={key} removeNote={this.removeNote} />
               )
             })}
           </section>
