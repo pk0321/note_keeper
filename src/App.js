@@ -60,6 +60,10 @@ class App extends Component {
     firebaseDatabase.ref(FirebaseConstant.basePath).child(noteId).remove();
   }
 
+  removeNotePromise(noteId) {
+    promise = new Promise(resolve => resolve(firebaseDatabase.ref(FirebaseConstant.basePath).child(noteId).remove())).then(alert("Deleted"));
+  }
+
   render() {
 	  var myClass = 'sidebar';
 	  if (this.state.displaySidebar) {
@@ -78,7 +82,8 @@ class App extends Component {
           <section className="notes">
             {this.state.notes.map((note, key) => {
               return (
-                <NoteCard note = {note} key={key} removeNote={this.removeNote} />
+                // <NoteCard note = {note} key={key} removeNote={this.removeNote} />
+                <NoteCard note = {note} key={key} removeNotePromise={this.removeNotePromise} />
               )
             })}
           </section>
